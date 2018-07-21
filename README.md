@@ -37,3 +37,56 @@ If you're feeling ambitious (again, totally optional though), don't stop there! 
 ## How to write a README
 A well written README file can enhance your project and portfolio.  Develop your abilities to create professional README files by completing [this free course](https://www.udacity.com/course/writing-readmes--ud777).
 
+
+[//]: # (Image References)
+
+[1_draw_corners]: output_images/1_chessboard_calibration3.jpg
+
+[2_undistorted]: output_images/2_undistorted_chessboard_calibration3.jpg
+
+
+
+
+# Camera calibration
+
+* Compute the camera calibration matrix and distortion coefficients given a set of chessboard images.
+
+A chessboard Camera calibration is a standard procedure in OpenCV and and thus the procedure:
+
+## For every image:
+1. Find corners in the image with `findChessboardCorners`
+2. Find corners with subpixel accuracy with `cornerSubPix`
+3. Show the corners (and order) with `drawChessboardCorners`
+
+<div style="text-align:center" markdown="1">
+
+![alt text][1_draw_corners]
+
+</div>
+
+4. Append corners to a detected corners list
+5. Append original grid to an object corners list
+
+## For the final list of all detected corners:
+1. Calibrate camera with `calibrateCamera`
+
+    - this has been run with try/except claws due to OpenCV versions' `calibrateCamera` functionality mismatches
+2. Rectification - Undistort original images using `undistort` and the distortion coefficients
+<div style="text-align:center" markdown="1">
+
+![alt text][2_undistorted]
+
+</div>
+
+- The undistort rectifies the chessboard while distorting the boundaries of the original image, as expected
+
+- distortion parameters were saved to cache for later use
+
+
+
+
+# references
+
+[1] [OpenCV3 Computer Vision with Python Cookbook](https://books.google.co.il/books?id=TrZTDwAAQBAJ&pg=PA122&lpg=PA122&dq=cv2+find+chessboard&source=bl&ots=3sRelPxcB2&sig=HIscYLpFDzP842niSEc3EtlYpUE&hl=en&sa=X&ved=0ahUKEwijuIWK663cAhVBUbwKHSnJDx4Q6AEIaDAF#v=onepage&q=cv2%20find%20chessboard&f=false)
+
+[2] [OpenCV official Camera Calibration](https://docs.opencv.org/3.4/dc/dbb/tutorial_py_calibration.html)
