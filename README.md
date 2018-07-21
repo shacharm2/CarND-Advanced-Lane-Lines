@@ -98,6 +98,62 @@ With requirements & specification cleared this section will focus on the project
 
 [4_birdeye_view_test6]: output_images/4_birdeye_view_test6.jpg
 
+
+[5_roi_combined_mask_test1]: output_images/5_roi_combined_mask_test1.jpg
+
+[test1]: test_images/test1.jpg
+
+[5_rectified_test1]: output_images/5_rectified_test1.jpg
+
+[5_roi_combined_mask_test2]: output_images/5_roi_combined_mask_test2.jpg
+
+[test2]: test_images/test2.jpg
+
+[5_rectified_test2]: output_images/5_rectified_test2.jpg
+
+
+[5_roi_combined_mask_test3]: output_images/5_roi_combined_mask_test3.jpg
+
+[test3]: test_images/test3.jpg
+
+[5_rectified_test3]: output_images/5_rectified_test3.jpg
+
+
+[5_roi_combined_mask_test4]: output_images/5_roi_combined_mask_test4.jpg
+
+[test4]: test_images/test4.jpg
+
+[5_rectified_test4]: output_images/5_rectified_test4.jpg
+
+[5_roi_combined_mask_test5]: output_images/5_roi_combined_mask_test5.jpg
+
+[test5]: test_images/test5.jpg
+
+[5_rectified_test5]: output_images/5_rectified_test5.jpg
+
+[5_roi_combined_mask_test6]: output_images/5_roi_combined_mask_test6.jpg
+
+[test6]: test_images/test6.jpg
+
+[5_rectified_test6]: output_images/5_rectified_test6.jpg
+
+
+[5_roi_combined_mask_straight_lines1]: output_images/5_roi_combined_mask_straight_lines1.jpg
+
+[straight_lines1]: test_images/straight_lines1.jpg
+
+[5_rectified_lines1]: output_images/5_rectified_straight_lines1.jpg
+
+
+[5_roi_combined_mask_straight_lines2]: output_images/5_roi_combined_mask_straight_lines2.jpg
+
+[straight_lines2]: test_images/straight_lines2.jpg
+
+[5_rectified_lines2]: output_images/5_rectified_straight_lines2.jpg
+
+
+
+
 # Camera calibration
 
 * Compute the camera calibration matrix and distortion coefficients given a set of chessboard images.
@@ -154,14 +210,15 @@ Finally, show the undistorted lane image
 
 * Apply a distortion correction to raw images.
 * Use color transforms, gradients, etc., to create a thresholded binary image.
+* This method is used here on an ROI and will later be used on the perspective transformed rectified images. Since it will be in the same ROI, the color and (Distorted) lane information should be highly similar.
 
 For the purpose of masking the following class has been used, returning the relevant mask
 
     class MaskPipeline(object):
-        def process(self, img, axes=None, filename=''):
-            ...
-            ...
-            return roi_mask
+        def __init__(self, trapzoid_params, save=False, show=False, nimage=-1):
+        ...
+        ...
+        return roi_mask
 
 The class used two methods for lane mask extraction. The main idea is that lanes are abnormalities on the road. While many abnormalities may exist, they have a certain structure that can be used to filter out. Thus, for all masking methods, an image adaptive threshold has been used to mask the lanes.
 
@@ -239,6 +296,32 @@ the perspective transform is straight forward - four object points and four corr
 ![4_birdeye_view_test6][4_birdeye_view_test6]
 
 </div>
+
+
+# Detect lane pixels
+
+Reuse the MaskPipeline class:
+
+    class MaskPipeline(object):
+
+With a rectified trapezoid
+
+
+
+| solid white curve | rectified  | solid white right                    |
+| :-----: | :-------------------: | :---------------------: |
+| ![][test1] | ![][5_rectified_test1] |![][5_roi_combined_mask_test1] |
+| ![][test2] | ![][5_rectified_test2] |![][5_roi_combined_mask_test2] |
+| ![][test3] | ![][5_rectified_test3] |![][5_roi_combined_mask_test3] |
+| ![][test4] | ![][5_rectified_test4] |![][5_roi_combined_mask_test4] |
+| ![][test5] | ![][5_rectified_test5] |![][5_roi_combined_mask_test5] |
+| ![][test6] | ![][5_rectified_test6] |![][5_roi_combined_mask_test6] |
+| ![][straight_lines1] | ![][5_rectified_lines1] |![][5_roi_combined_mask_straight_lines1] |
+| ![][straight_lines2] | ![][5_rectified_lines2] |![][5_roi_combined_mask_straight_lines2] |
+
+
+
+
 
 
 
