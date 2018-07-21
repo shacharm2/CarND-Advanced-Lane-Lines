@@ -12,7 +12,9 @@ All that said, please be concise!  We're not looking for you to write a book her
 
 You're not required to use markdown for your writeup.  If you use another method please just submit a pdf of your writeup.
 
-The Project
+# Requirements
+
+## The Project
 ---
 
 The goals / steps of this project are the following:
@@ -34,17 +36,51 @@ The `challenge_video.mp4` video is an extra (and optional) challenge for you if 
 
 If you're feeling ambitious (again, totally optional though), don't stop there!  We encourage you to go out and take video of your own, calibrate your camera and show us how you would implement this project from scratch!
 
-## How to write a README
-A well written README file can enhance your project and portfolio.  Develop your abilities to create professional README files by completing [this free course](https://www.udacity.com/course/writing-readmes--ud777).
+---
+
+## Project specification
+---
+[udacity](https://review.udacity.com/#!/rubrics/1966/view)
+
+### Camera Calibration Criteria
+ - Briefly state how you computed the camera matrix and distortion coefficients. Provide an example of a distortion corrected calibration image.
+
+### Pipeline (test images) Criteria
+
+- Provide an example of a distortion-corrected image.
+- Describe how (and identify where in your code) you used color transforms, gradients or other methods to create a thresholded binary image. Provide an example of a binary image result.
+- Describe how (and identify where in your code) you performed a perspective transform and provide an example of a transformed image.
+- Describe how (and identify where in your code) you identified lane-line pixels and fit their positions with a polynomial?
+- Describe how (and identify where in your code) you calculated the radius of curvature of the lane and the position of the vehicle with respect to center.
+- Provide an example image of your result plotted back down onto the road such that the lane area is identified clearly.
+
+### Pipeline (video) Criteria
+- Provide a link to your final video output. Your pipeline should perform reasonably well on the entire project video (wobbly lines are ok but no catastrophic failures that would cause the car to drive off the road!)
+
+### Discussion
+- Briefly discuss any problems / issues you faced in your implementation of this project. Where will your pipeline likely fail? What could you do to make it more robust?
+
+
+
+# Project Pipeline
+
+With requirements & specification cleared this section will focus on the project itself
+
 
 
 [//]: # (Image References)
 
-[1_draw_corners]: output_images/1_chessboard_calibration3.jpg
+[1_draw_corners]: output_images/1_chessboard_calibration2.jpg
 
-[2_undistorted]: output_images/2_undistorted_chessboard_calibration3.jpg
+[2_undistorted]: output_images/2_undistorted_chessboard_calibration2.jpg
 
+[2_lane]: output_images/2_test1.jpg
 
+[3_sobel_mask]: output_images/3_roi_sobel_mask_straight_lines1.jpg
+
+[3_Lb_mask]: output_images/3_Lb_mask_straight_lines1.jpg
+
+[3_combined_roi]: output_images/3_roi_combined_mask_straight_lines1.jpg
 
 
 # Camera calibration
@@ -74,19 +110,87 @@ A chessboard Camera calibration is a standard procedure in OpenCV and and thus t
 2. Rectification - Undistort original images using `undistort` and the distortion coefficients
 <div style="text-align:center" markdown="1">
 
-![alt text][2_undistorted]
+![undistorted chessboard][2_undistorted]
 
 </div>
+
+For the purpose of rectifying the following class has been used:
+    
+    class Rectification(object):
+        def rectify(self, img, axes=None, filename=''):
+            ...
+            ...
+            return undistorted_img
 
 - The undistort rectifies the chessboard while distorting the boundaries of the original image, as expected
 
 - distortion parameters were saved to cache for later use
 
+Finally, show the undistorted lane image
+
+<div style="text-align:center" markdown="1">
+
+![undistorted lane][2_lane]
+
+</div>
+
+# Lane Masking
 
 
+* Apply a distortion correction to raw images.
+* Use color transforms, gradients, etc., to create a thresholded binary image.
+
+For the purpose of masking the following class has been used, returning the relevant mask
+
+    class MaskPipeline(object):
+        def process(self, img, axes=None, filename=''):
+            ...
+            ...
+            return roi_mask
+
+The class used two methods for lane mask extraction. The main idea is that lanes are abnormalities on the road. While many abnormalities may exist, they have a certain structure that can be used to filter out. Thus, for all masking methods, an image adaptive threshold has been used to mask the lanes.
+
+1. Sobel operator masking 
+    * Mask the ROI of relevant lanes, threshold by the 99.5 percentile
+
+<div style="text-align:center" markdown="1">
+
+![3_sobel_mask][3_sobel_mask]
+
+</div>
+
+
+2. CIELab Colorspace
+   * CIELab is a perceptually uniform colorspace. 
+   * L is lightness axis - similar to gray scale without any color data encoded into it
+   * a is the green-red axis - expect no relevant information
+   * b is the blue-yellow axis
+   * Build a joint Lb mask 
+
+
+<div style="text-align:center" markdown="1">
+
+![3_Lb_mask][3_Lb_mask]
+
+</div>
+
+Finally, join the masks over the trapezoid region of interest (ROI):
+
+<div style="text-align:center" markdown="1">
+
+![3_sobel_mask][3_combined_roi]
+
+</div>
+
+
+
+# Bird eye transformation
+
+The transformation has been found using the straight lines test images in order to calibrate the parameters
 
 # references
 
 [1] [OpenCV3 Computer Vision with Python Cookbook](https://books.google.co.il/books?id=TrZTDwAAQBAJ&pg=PA122&lpg=PA122&dq=cv2+find+chessboard&source=bl&ots=3sRelPxcB2&sig=HIscYLpFDzP842niSEc3EtlYpUE&hl=en&sa=X&ved=0ahUKEwijuIWK663cAhVBUbwKHSnJDx4Q6AEIaDAF#v=onepage&q=cv2%20find%20chessboard&f=false)
 
 [2] [OpenCV official Camera Calibration](https://docs.opencv.org/3.4/dc/dbb/tutorial_py_calibration.html)
+
