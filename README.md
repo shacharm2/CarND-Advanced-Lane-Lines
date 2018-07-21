@@ -82,6 +82,21 @@ With requirements & specification cleared this section will focus on the project
 
 [3_combined_roi]: output_images/3_roi_combined_mask_straight_lines1.jpg
 
+[4_birdeye_view_straight_lines1]: output_images/4_birdeye_view_straight_lines1.jpg
+
+[4_birdeye_view_straight_lines2]: output_images/4_birdeye_view_straight_lines2.jpg
+
+[4_birdeye_view_test1]: output_images/4_birdeye_view_test1.jpg
+
+[4_birdeye_view_test2]: output_images/4_birdeye_view_test2.jpg
+
+[4_birdeye_view_test3]: output_images/4_birdeye_view_test3.jpg
+
+[4_birdeye_view_test4]: output_images/4_birdeye_view_test4.jpg
+
+[4_birdeye_view_test5]: output_images/4_birdeye_view_test5.jpg
+
+[4_birdeye_view_test6]: output_images/4_birdeye_view_test6.jpg
 
 # Camera calibration
 
@@ -186,7 +201,50 @@ Finally, join the masks over the trapezoid region of interest (ROI):
 
 # Bird eye transformation
 
-The transformation has been found using the straight lines test images in order to calibrate the parameters
+* Apply a perspective transform to rectify binary image ("birds-eye view").
+
+The transformation has been found using the straight lines test images in order to calibrate the parameters. For the purpose of bird eye transformation, the following class has been used:
+
+    class BirdEye(object):
+        def transform(self, img):
+            unwarped = cv2.warpPerspective(img, self.transform_matrix, self.shape, flags=cv2.INTER_LINEAR)
+            return unwarped
+
+the perspective transform is straight forward - four object points and four corresponding to four warped points
+
+### Test results - Straight lines
+
+<div style="text-align:center" markdown="1">
+
+![4_birdeye_view_straight_lines1][4_birdeye_view_straight_lines1]
+
+![4_birdeye_view_straight_lines2][4_birdeye_view_straight_lines2]
+
+</div>
+
+### Test results - Curved lines
+
+<div style="text-align:center" markdown="1">
+
+![4_birdeye_view_test1][4_birdeye_view_test1]
+
+![4_birdeye_view_test2][4_birdeye_view_test2]
+
+![4_birdeye_view_test3][4_birdeye_view_test3]
+
+![4_birdeye_view_test4][4_birdeye_view_test4]
+
+![4_birdeye_view_test5][4_birdeye_view_test5]
+
+![4_birdeye_view_test6][4_birdeye_view_test6]
+
+</div>
+
+
+
+
+
+
 
 # references
 
