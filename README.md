@@ -304,7 +304,7 @@ Reuse the MaskPipeline class:
 
     class MaskPipeline(object):
 
-With a rectified trapezoid
+* with a rectified trapezoid
 
 
 
