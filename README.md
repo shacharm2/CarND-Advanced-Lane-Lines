@@ -210,7 +210,7 @@ Finally, show the undistorted lane image
 
 * Apply a distortion correction to raw images.
 * Use color transforms, gradients, etc., to create a thresholded binary image.
-* This method is used here on an ROI and will later be used on the perspective transformed rectified images. Since it will be in the same ROI, the color and (Distorted) lane information should be highly similar.
+* This method is used here on an ROI and will later be used under "Detect lane pixels", on the perspective-transformed rectified images. Since it will be in the same ROI, the color and (Distorted) lane information should be highly similar.
 
 For the purpose of masking the following class has been used, returning the relevant mask
 
@@ -256,7 +256,7 @@ Finally, join the masks over the trapezoid region of interest (ROI):
 
 
 
-# Bird eye transformation
+# Bid eye transformration
 
 * Apply a perspective transform to rectify binary image ("birds-eye view").
 
@@ -300,6 +300,8 @@ the perspective transform is straight forward - four object points and four corr
 
 # Detect lane pixels
 
+## Masking
+
 Reuse the MaskPipeline class:
 
     class MaskPipeline(object):
@@ -319,6 +321,8 @@ Reuse the MaskPipeline class:
 | ![][straight_lines1] | ![][5_rectified_lines1] |![][5_roi_combined_mask_straight_lines1] |
 | ![][straight_lines2] | ![][5_rectified_lines2] |![][5_roi_combined_mask_straight_lines2] |
 
+## Histogram peak based initialization
+
 
 
 
@@ -335,3 +339,6 @@ Reuse the MaskPipeline class:
 
 [2] [OpenCV official Camera Calibration](https://docs.opencv.org/3.4/dc/dbb/tutorial_py_calibration.html)
 
+[3] [Skeletize](http://opencvpython.blogspot.com/2012/05/skeletonization-using-opencv-python.html)
+
+[4] [OpenCV morphological operations](https://docs.opencv.org/3.0-beta/doc/py_tutorials/py_imgproc/py_morphological_ops/py_morphological_ops.html)
