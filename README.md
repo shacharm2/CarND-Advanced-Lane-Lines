@@ -153,6 +153,10 @@ With requirements & specification cleared this section will focus on the project
 
 [6_hist_peak]: output_images/6_histogram_test6.jpg
 [6_lane_fit]: output_images/6_lanes_fit_test6.jpg
+[6_lanes_fit_straight_lines1]: output_images/6_lanes_fit_straight_lines1.jpg
+[6_lanes_fit_test2]: output_images/6_lanes_fit_test2.jpg
+[6_lanes_fit_test6]: output_images/6_lanes_fit_test6.jpg
+
 
 
 
@@ -335,12 +339,15 @@ Initialize with histogram peaks
 ![][6_hist_peak]
 
 
-Apply sliding window method to find lanes and estimate line and curvature
+Applying sliding window method in order find lanes and estimate the quadratic lines, curvature and offset. 
+As expected, straight lines should have very large curvature, while turns should have considerable lower curvature
 
-![][6_lane_fit]] 
-
+| Straight lanes | Curved #1 | Curved #2 |
+| :-----: | :-------------------: | :---------------------: |
+| ![][6_lanes_fit_straight_lines1] | ![][6_lanes_fit_test2] |![][6_lanes_fit_test6] |
 
 ,
+
 
 
 
