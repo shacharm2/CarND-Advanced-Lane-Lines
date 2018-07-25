@@ -151,6 +151,9 @@ With requirements & specification cleared this section will focus on the project
 
 [5_rectified_lines2]: output_images/5_rectified_straight_lines2.jpg
 
+[6_hist_peak]: output_images/6_histogram_test6.jpg
+[6_lane_fit]: output_images/6_lanes_fit_test6.jpg
+
 
 
 
@@ -246,6 +249,10 @@ The class used two methods for lane mask extraction. The main idea is that lanes
 
 </div>
 
+The mask then goes through Morphological filtering:
+* erosion 5x5 kernel - remove small noise
+* opening - 1% of image width , a flat x-cross-section kernel - filtering out small x width fragments
+
 Finally, join the masks over the trapezoid region of interest (ROI):
 
 <div style="text-align:center" markdown="1">
@@ -323,12 +330,17 @@ Reuse the MaskPipeline class:
 
 ## Histogram peak based initialization
 
+Initialize with histogram peaks
+
+![][6_hist_peak]
 
 
+Apply sliding window method to find lanes and estimate line and curvature
+
+![][6_lane_fit]] 
 
 
-
-
+,
 
 
 
