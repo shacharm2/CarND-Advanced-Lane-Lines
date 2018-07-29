@@ -361,3 +361,5 @@ As expected, straight lines should have very large curvature, while turns should
 [3] [Skeletize](http://opencvpython.blogspot.com/2012/05/skeletonization-using-opencv-python.html)
 
 [4] [OpenCV morphological operations](https://docs.opencv.org/3.0-beta/doc/py_tutorials/py_imgproc/py_morphological_ops/py_morphological_ops.html)
+
+[5] [sklearn RANSAC documentation](http://scikit-learn.org/stable/auto_examples/linear_model/plot_robust_fit.html)
