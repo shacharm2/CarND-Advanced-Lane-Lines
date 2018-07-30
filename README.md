@@ -157,8 +157,7 @@ With requirements & specification cleared this section will focus on the project
 [6_lanes_fit_test2]: output_images/6_lanes_fit_test2.jpg
 [6_lanes_fit_test6]: output_images/6_lanes_fit_test6.jpg
 
-
-
+[varying_windows]: output_images/varying_windows.png
 
 
 # Camera calibration
@@ -317,7 +316,7 @@ Reuse the MaskPipeline class:
 
     class MaskPipeline(object):
 
-* with a rectified trapezoid
+* with a rectified trapezoid - cutting off 1/3 of the top window
 
 
 
@@ -339,14 +338,36 @@ Initialize with histogram peaks
 ![][6_hist_peak]
 
 
-Applying sliding window method in order find lanes and estimate the quadratic lines, curvature and offset. 
-As expected, straight lines should have very large curvature, while turns should have considerable lower curvature
+
+## Sliding window for lande detection
+
+Once the initialization has started, the algorithm applies a sliding window method in order find lanes and estimate the quadratic lines, curvature and offset. As expected, straight lines should have very large curvature, while turns should have considerable lower curvature.
+
+Once two windows have been estimated, a short polynmial is estimated to evaulate the next window X location.
+
 
 | Straight lanes | Curved #1 | Curved #2 |
 | :-----: | :-------------------: | :---------------------: |
 | ![][6_lanes_fit_straight_lines1] | ![][6_lanes_fit_test2] |![][6_lanes_fit_test6] |
 
-,
+
+### Next frame 
+
+* initialization - The following frame initialization occurs around the 
+previous base of the two lines
+* Window width is set by the previous fit - 2 standard deviation of the detected lane pixels with respect to the line width. This is done in order to avoid additional image artifcats that would insert outliers to the line fit (that would have been dealt with RANSAC line estimation, if required)
+
+![][varying_windows]
+
+### Line averaging
+
+A buffer or the 7 recent line fits is saved. Given a new fit, outliers are removed (mean, std) and then a weighted 
+
+### Bad lines
+
+* Lines for which the end of the line is an outlier with respect to 7 last line ends, causes an initialization of the line localization process
+
+* non found lines were not dealt with
 
 
 
