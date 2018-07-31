@@ -1,16 +1,17 @@
-## Advanced Lane Finding
-[![Udacity - Self-Driving Car NanoDegree](https://s3.amazonaws.com/udacity-sdc/github/shield-carnd.svg)](http://www.udacity.com/drive)
+# Advance Lane Finding
+
+The project concentrates on detecting and tracking lanes under various road conditions. 
+
+The final project video shows the detected laned and road area
 
 
-In this project, your goal is to write a software pipeline to identify the lane boundaries in a video, but the main output or product we want you to create is a detailed writeup of the project.  Check out the [writeup template](https://github.com/udacity/CarND-Advanced-Lane-Lines/blob/master/writeup_template.md) for this project and use it as a starting point for creating your own writeup.  
+| Project video | challenge video |
+| :-----: | :-------------------: |
+| ![project_video](output_images/project_video.gif) | ![challenge_video_out](output_images/challenge_video_out.gif) |
 
-Creating a great writeup:
----
-A great writeup should include the rubric points as well as your description of how you addressed each point.  You should include a detailed description of the code used in each step (with line-number references and code snippets where necessary), and links to other supporting documents or external references.  You should include images in your writeup to demonstrate how your code works with examples.  
 
-All that said, please be concise!  We're not looking for you to write a book here, just a brief description of how you passed each rubric point, and references to the relevant code :). 
 
-You're not required to use markdown for your writeup.  If you use another method please just submit a pdf of your writeup.
+
 
 # Requirements
 
@@ -28,15 +29,7 @@ The goals / steps of this project are the following:
 * Warp the detected lane boundaries back onto the original image.
 * Output visual display of the lane boundaries and numerical estimation of lane curvature and vehicle position.
 
-The images for camera calibration are stored in the folder called `camera_cal`.  The images in `test_images` are for testing your pipeline on single frames.  If you want to extract more test images from the videos, you can simply use an image writing method like `cv2.imwrite()`, i.e., you can read the video in frame by frame as usual, and for frames you want to save for later you can write to an image file.  
 
-To help the reviewer examine your work, please save examples of the output from each stage of your pipeline in the folder called `output_images`, and include a description in your writeup for the project of what each image shows.    The video called `project_video.mp4` is the video your pipeline should work well on.  
-
-The `challenge_video.mp4` video is an extra (and optional) challenge for you if you want to test your pipeline under somewhat trickier conditions.  The `harder_challenge.mp4` video is another optional challenge and is brutal!
-
-If you're feeling ambitious (again, totally optional though), don't stop there!  We encourage you to go out and take video of your own, calibrate your camera and show us how you would implement this project from scratch!
-
----
 
 ## Project specification
 ---
@@ -60,11 +53,6 @@ If you're feeling ambitious (again, totally optional though), don't stop there! 
 ### Discussion
 - Briefly discuss any problems / issues you faced in your implementation of this project. Where will your pipeline likely fail? What could you do to make it more robust?
 
-
-
-# Project Pipeline
-
-With requirements & specification cleared this section will focus on the project itself
 
 
 
@@ -160,13 +148,20 @@ With requirements & specification cleared this section will focus on the project
 [varying_windows]: output_images/varying_windows.png
 
 
-# Camera calibration
+
+
+# Project Pipeline
+
+* With requirements & specification cleared this section will focus on the project itself
+
+
+## Camera calibration
 
 * Compute the camera calibration matrix and distortion coefficients given a set of chessboard images.
 
 A chessboard Camera calibration is a standard procedure in OpenCV and and thus the procedure:
 
-## For every image:
+### For every image:
 1. Find corners in the image with `findChessboardCorners`
 2. Find corners with subpixel accuracy with `cornerSubPix`
 3. Show the corners (and order) with `drawChessboardCorners`
@@ -180,7 +175,7 @@ A chessboard Camera calibration is a standard procedure in OpenCV and and thus t
 4. Append corners to a detected corners list
 5. Append original grid to an object corners list
 
-## For the final list of all detected corners:
+### For the final list of all detected corners:
 1. Calibrate camera with `calibrateCamera`
 
     - this has been run with try/except claws due to OpenCV versions' `calibrateCamera` functionality mismatches
@@ -211,7 +206,7 @@ Finally, show the undistorted lane image
 
 </div>
 
-# Lane Masking
+## Lane Masking
 
 
 * Apply a distortion correction to raw images.
@@ -245,6 +240,7 @@ The class used two methods for lane mask extraction. The main idea is that lanes
    * b is the blue-yellow axis
    * Build a joint Lb mask 
 
+The HSL colorspace has been examined as well, as in [8], but no significant additional information has been found compared to LAB colorspace.
 
 <div style="text-align:center" markdown="1">
 
@@ -266,7 +262,7 @@ Finally, join the masks over the trapezoid region of interest (ROI):
 
 
 
-# Bid eye transformration
+## Bird eye transformration
 
 * Apply a perspective transform to rectify binary image ("birds-eye view").
 
@@ -279,7 +275,7 @@ The transformation has been found using the straight lines test images in order 
 
 the perspective transform is straight forward - four object points and four corresponding to four warped points
 
-### Test results - Straight lines
+### Straight lines
 
 <div style="text-align:center" markdown="1">
 
@@ -289,7 +285,7 @@ the perspective transform is straight forward - four object points and four corr
 
 </div>
 
-### Test results - Curved lines
+### Curved lines
 
 <div style="text-align:center" markdown="1">
 
@@ -331,7 +327,7 @@ Reuse the MaskPipeline class:
 | ![][straight_lines1] | ![][5_rectified_lines1] |![][5_roi_combined_mask_straight_lines1] |
 | ![][straight_lines2] | ![][5_rectified_lines2] |![][5_roi_combined_mask_straight_lines2] |
 
-## Histogram peak based initialization
+### Histogram peak based initialization
 
 Initialize with histogram peaks
 
@@ -339,7 +335,7 @@ Initialize with histogram peaks
 
 
 
-## Sliding window for lande detection
+### Sliding window for lande detection
 
 Once the initialization has started, the algorithm applies a sliding window method in order find lanes and estimate the quadratic lines, curvature and offset. As expected, straight lines should have very large curvature, while turns should have considerable lower curvature.
 
@@ -351,7 +347,7 @@ Once two windows have been estimated, a short polynmial is estimated to evaulate
 | ![][6_lanes_fit_straight_lines1] | ![][6_lanes_fit_test2] |![][6_lanes_fit_test6] |
 
 
-### Next frame 
+### Next frame processing - post initialization
 
 * initialization - The following frame initialization occurs around the 
 previous base of the two lines
@@ -361,15 +357,65 @@ previous base of the two lines
 
 ### Line averaging
 
-A buffer or the 10 recent line fits is saved. Given a new fit, outliers are removed (mean, std) and then a weighted 
+A buffer of the 10 recent line fits is saved. Given a new fit, outliers are removed (mean, std) and then a weighted sum over the parameters is calculated. 
+
+For all the line fit parameters, post filtering: 
+
+
+$\text{p} _m  = \sum_{i=1}^N \text{w}_i * \text{p}_i/\sum_{i=1}^N \text{w}_i$ 
+
+
+* The advantage - is increased stability and robustness to both soft noise (averaging) and hard noise (salt/pepper) & outliers 
+
+* The disadvantage - slower to respond to changes such as can be seen in the project video, for transitioning between two road areas, where one is slightly elevated, causing rapid Y-axis changes.
+
+## Sanity 
 
 ### Bad lines
 
-* Lines for which the end of the line is an outlier with respect to 10 last line ends, causes an initialization of the line localization process
+* bad fitted lines were not dealt with using previous lines as 'placeholders':
 
-* non found lines were not dealt with using previous lines as 'placeholders'. This was in the case where the parameters of the fit were anomalous compared with the set of last 
+1. polyfit residual anomaly - large residuals compared with last 10 fits residuals
+2. line parameters anomaly - large residuals compared with last 10 fits parameters, individually
+
+## Curvature
+
+Visual inspection of the lines curvature reveals 
+1. Straight lines should have large curvatures > 5km
+2. Curved have 1 km or less
 
 ### Stability
+
+Although the lines were stable, it can be seen at the end of lines, the extrapolation jitters. Shortenning the line estimation would increase visual stability over the video.
+
+# Final results
+
+As shown at the begining, the final results of the project & challenge video are presented.
+
+The output *videos* are under the base folder, named
+1. project_video_out.mp4
+2. challenge_video_out.mp4
+
+
+<div style="text-align:center" markdown="1">
+
+![project_video](output_images/project_video.gif)
+
+![challenge_video_out](output_images/challenge_video_out.gif)
+
+</div>
+
+
+# Discussion
+
+The project focused on advanced lane finding, with various artifacts such as small shadows to large shadows, varying gray level road colors and middle of road artifacts. The pipeline was designed to have as little as hyperparameters as possible and thus, an anomaly detection method has been widely used, as artifacts on the road can be considered abnormal to the human eye - white or yellow vs gray, rapid changes in lane direction, etc.
+
+Another aspect the algorithm focuses on is adaptivity - measured parameters can be used to estimate next frames, including lane parameters such as direction, curvature and width used to search for upcoming estimated location of the lane.
+
+The pitfalls of the algorithm can be identified as less robust to quick changes, due to averaging of line parameters, global thresholding (as in, non local) and thus, less robust to shadows, as been seen under the bridge, where for a few frames, line estimation freezes and continues after passing of the bridge. Another pitfal may be occlusions, where a car passing on the lane would would cause the algorithm to fail on finding the lane.
+
+To overcome these kind of pitfalls, local identification of tunable parameters can be used,shadow removal algorithms, adaptive color value identification, adaptive tracking, as kalman filters, or pattern matching (previous lane image to estimate the folowing lane), etc. Other modification can be done in order to help the algorithm be more adaptive to quick changes, such as change-of-rate of the line parameters. Finally, integrating this algorithm with object identification and anomaly detection algorithm may help the lane identification to be more robust. 
+
 
 
 
@@ -384,4 +430,14 @@ A buffer or the 10 recent line fits is saved. Given a new fit, outliers are remo
 
 [4] [OpenCV morphological operations](https://docs.opencv.org/3.0-beta/doc/py_tutorials/py_imgproc/py_morphological_ops/py_morphological_ops.html)
 
-[5] [sklearn RANSAC documentation](http://scikit-learn.org/stable/auto_examples/linear_model/plot_robust_fit.html)
+[5] [sklearn RANSAC documentation](http://scikit-learn.org/stable/auto_examples/linear_model/plot_robust_fit.html) / Robust line estimation
+
+[6] [https://github.com/JustinHeaton/Advanced-Lane-Finding](https://github.com/JustinHeaton/Advanced-Lane-Finding) / For ideas of how to present GIFs 
+
+[7] Gimp white balance algorithm -  [GIMP's White balance](https://pippin.gimp.org/image-processing/chapter-automaticadjustments.html)
+
+[8] HSV/HSL filtering -[HSV filtering in lane finding example](https://github.com/Kidra521/carnd/blob/master/p1_lane_lines_detection/P1.ipynb) 
+
+    A different colorspace, in which HSV colorpsace has been used. HSV (or HSL) are more device specific. 
+    Also, there has been usage of fixed, non adaptive thresholding
+
