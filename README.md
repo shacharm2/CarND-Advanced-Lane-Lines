@@ -441,8 +441,5 @@ To overcome these kind of pitfalls, local identification of tunable parameters c
 
 [7] Gimp white balance algorithm -  [GIMP's White balance](https://pippin.gimp.org/image-processing/chapter-automaticadjustments.html)
 
-[8] HSV/HSL filtering -[HSV filtering in lane finding example](https://github.com/Kidra521/carnd/blob/master/p1_lane_lines_detection/P1.ipynb) 
-
-    A different colorspace, in which HSV colorpsace has been used. HSV (or HSL) are more device specific. 
-    Also, there has been usage of fixed, non adaptive thresholding
+[8] HSV/HSL filtering -[HSV filtering in lane finding example](https://github.com/Kidra521/carnd/blob/master/p1_lane_lines_detection/P1.ipynb) / A different colorspace, in which HSV colorpsace has been used. HSV (or HSL) are more device specific.
 
