@@ -405,7 +405,7 @@ $\text{p} _m  = \sum_{i=1}^N \text{w}_i * \text{p}_i/\sum_{i=1}^N \text{w}_i$
 1. polyfit residual anomaly - large residuals compared with last 10 fits residuals
 2. line parameters anomaly - large residuals compared with last 10 fits parameters, individually
 
-## Curvature
+### Curvature
 
 Visual inspection of the lines curvature reveals 
 1. Straight lines should have large curvatures > 5km
