@@ -352,7 +352,7 @@ Initialize with histogram peaks. The histogram was calculated along the x axis, 
 ![][6_hist_peak]
 
 
-### Sliding window for lande detection
+### Sliding window for lane detection
 
 Once the initialization has started, the algorithm applies a sliding window method in order find lanes and estimate the quadratic lines, curvature and offset. As expected, straight lines should have very large curvature, while turns should have considerable lower curvature.
 
@@ -445,7 +445,7 @@ The project focused on advanced lane finding, with various artifacts such as sma
 
 Another aspect the algorithm focuses on is adaptivity - measured parameters can be used to estimate next frames, including lane parameters such as direction, curvature and width used to search for upcoming estimated location of the lane.
 
-The pitfalls of the algorithm can be identified as less robust to quick changes, due to averaging of line parameters, global thresholding (as in, non local) and thus, less robust to shadows, as been seen under the bridge, where for a few frames, line estimation freezes and continues after passing of the bridge. Another pitfal may be occlusions, where a car passing on the lane would would cause the algorithm to fail on finding the lane.
+The pitfalls of the algorithm can be identified as less robust to quick changes, due to averaging of line parameters, global thresholding (as in, non local) and thus, less robust to shadows, as been seen under the bridge, where for a few frames, line estimation freezes and continues after passing of the bridge. Although preprocessing made sure to avoid inserting any outliers, the numpy polyfit method is an L2 based method and thus prone to outlier errors. Using L1 or RANSAC estimation could improve any issues that may occur due to outlier in the line estimation process. Another pitfal may be occlusions, where a car passing on the lane would would cause the algorithm to fail on finding the lane. 
 
 To overcome these kind of pitfalls, local identification of tunable parameters can be used,shadow removal algorithms, adaptive color value identification, adaptive tracking, as kalman filters, or pattern matching (previous lane image to estimate the folowing lane), etc. Other modification can be done in order to help the algorithm be more adaptive to quick changes, such as change-of-rate of the line parameters. Finally, integrating this algorithm with object identification and anomaly detection algorithm may help the lane identification to be more robust. 
 
