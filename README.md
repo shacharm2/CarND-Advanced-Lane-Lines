@@ -347,7 +347,7 @@ This class takes care of
 
 ### Histogram peak based initialization
 
-Initialize with histogram peaks
+Initialize with histogram peaks. The histogram was calculated along the x axis, summed over the y axis over the lower 1/3 part of the image and finally convolved with a gauassian, in order to low pass filter specific peaks and elongate the true peak.
 
 ![][6_hist_peak]
 
@@ -410,6 +410,7 @@ $\text{p} _m  = \sum_{i=1}^N \text{w}_i * \text{p}_i/\sum_{i=1}^N \text{w}_i$
 Visual inspection of the lines curvature reveals 
 1. Straight lines should have large curvatures > 5km
 2. Curved have 1 km or less
+
 
 ### Stability
 
