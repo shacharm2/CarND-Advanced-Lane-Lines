@@ -7,7 +7,7 @@ The final project video shows the detected laned and road area
 
 | Project video | challenge video |
 | :-----: | :-------------------: |
-| ![project_video](output_images/project_video.gif) | ![challenge_video_out](output_images/challenge_video_out.gif) |
+| ![project_video](./output_images/project_video.gif) | ![challenge_video_out](./output_images/challenge_video_out.gif) |
 
 
 
@@ -399,7 +399,12 @@ The output *videos* are under the base folder, named
 
 <div style="text-align:center" markdown="1">
 
+
+## Project video
+
 ![project_video](output_images/project_video.gif)
+
+## Challenge video
 
 ![challenge_video_out](output_images/challenge_video_out.gif)
 
