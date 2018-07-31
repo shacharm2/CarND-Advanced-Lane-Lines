@@ -208,6 +208,7 @@ Finally, show the undistorted lane image
 
 
 * Apply a distortion correction to raw images.
+* Apply white balancing, by GIMP's algorithm [7]
 * Use color transforms, gradients, etc., to create a thresholded binary image.
 * This method is used here on an ROI and will later be used under "Detect lane pixels", on the perspective-transformed rectified images. Since it will be in the same ROI, the color and (Distorted) lane information should be highly similar.
 
