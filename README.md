@@ -325,12 +325,30 @@ Reuse the MaskPipeline class:
 | ![][straight_lines1] | ![][5_rectified_lines1] |![][5_roi_combined_mask_straight_lines1] |
 | ![][straight_lines2] | ![][5_rectified_lines2] |![][5_roi_combined_mask_straight_lines2] |
 
+
+## Localization
+
+For the purpose of lane (line) localization, the Localization class has been written, which handles both left and right lanes (utilizing the Line class).
+
+
+    class Localization(object):
+        ...
+        def localize(self, img, img_file:
+        ...
+
+This class takes care of 
+- lane initialization
+- lane tracking
+- lane overlay over image
+
+
+
+
 ### Histogram peak based initialization
 
 Initialize with histogram peaks
 
 ![][6_hist_peak]
-
 
 
 ### Sliding window for lande detection
@@ -353,7 +371,16 @@ previous base of the two lines
 
 ![][varying_windows]
 
+
+For the purpose of lane handling, the Line class has been written, as suggested, taking care of the following functions, such as line averaging, abnormalities filtering, etc
+
+
+    class Line(object):
+        def __init__(self, basex):
+        ...
+
 ### Line averaging
+
 
 A buffer of the 10 recent line fits is saved. Given a new fit, outliers are removed (mean, std) and then a weighted sum over the parameters is calculated. 
 
@@ -368,6 +395,7 @@ $\text{p} _m  = \sum_{i=1}^N \text{w}_i * \text{p}_i/\sum_{i=1}^N \text{w}_i$
 * The disadvantage - slower to respond to changes such as can be seen in the project video, for transitioning between two road areas, where one is slightly elevated, causing rapid Y-axis changes.
 
 ## Sanity 
+
 
 ### Bad lines
 
