@@ -361,14 +361,15 @@ previous base of the two lines
 
 ### Line averaging
 
-A buffer or the 7 recent line fits is saved. Given a new fit, outliers are removed (mean, std) and then a weighted 
+A buffer or the 10 recent line fits is saved. Given a new fit, outliers are removed (mean, std) and then a weighted 
 
 ### Bad lines
 
-* Lines for which the end of the line is an outlier with respect to 7 last line ends, causes an initialization of the line localization process
+* Lines for which the end of the line is an outlier with respect to 10 last line ends, causes an initialization of the line localization process
 
-* non found lines were not dealt with
+* non found lines were not dealt with using previous lines as 'placeholders'. This was in the case where the parameters of the fit were anomalous compared with the set of last 
 
+### Stability
 
 
 
