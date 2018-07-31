@@ -5,9 +5,7 @@ The project concentrates on detecting and tracking lanes under various road cond
 The final project video shows the detected laned and road area
 
 
-| Project video | challenge video |
-| :-----: | :-------------------: |
-| ![project_video](./output_images/project_video.gif) | ![challenge_video_out](./output_images/challenge_video_out.gif) |
+![project_video](./output_images/project_video.gif) 
 
 
 
